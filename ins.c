@@ -1,4 +1,5 @@
-
+#include <stdlib.h>
+#include <stdio.h>
 int x[10], y[10], num_inputs, num_y = 0;
 
 void get_args(int ac, char **av) {
@@ -44,7 +45,7 @@ void process_data() {
 void print_results() {
   int i;
 
-  for (int i = 0; i < num_inputs; i++) {
+  for (i = 0; i < num_inputs; i++) {
     printf("%d\n", y[i]);
   }
 }
