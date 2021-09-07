@@ -1,6 +1,10 @@
-#include <stdlib.h>
 #include <stdio.h>
-int x[10], y[10], num_inputs, num_y = 0;
+#include <stdlib.h>
+
+int x[10],      // input array
+    y[10],      // workspace array
+    num_inputs, // length of input array
+    num_y = 0;  // current number of elements in y
 
 void get_args(int ac, char **av) {
   int i;
@@ -14,7 +18,7 @@ void get_args(int ac, char **av) {
 void scoot_over(int jj) {
   int k;
 
-  for (k = num_y - 1; k < jj; k++) {
+  for (k = num_y; k > jj; k--) {
     y[k] = y[k - 1];
   }
 }
@@ -22,7 +26,7 @@ void scoot_over(int jj) {
 void insert(int new_y) {
   int j;
 
-  if (num_y = 0) {
+  if (num_y == 0) {
     y[0] = new_y;
     return;
   }
@@ -34,6 +38,7 @@ void insert(int new_y) {
       return;
     }
   }
+  y[num_y] = new_y;
 }
 
 void process_data() {
