@@ -97,3 +97,55 @@ until 也可以使用代码中的位置参数
 ## 条件断点
 
 break _break-args_ if (condition)
+
+`break main in argc > 1`
+
+在有效的 c 条件语句中几乎可以使用任何表达式
+
+1. 相等，逻辑和不相等运算
+   break 180 if string==NULL && i < 0
+2. 按位和移位运算符(&, | )
+   break test.c:34 if (x & y) == 1
+3. 算术运算符(+ )
+   break myfunc if i % (j + 3) != 0
+4. 自己的函数只要他们被连接到程序里
+   break 44 if test.c:myfunc if ! check_variable_sanity(i)
+5. 库函数只要该库别链接到代码中
+   break 44 if strlen(mystring) == 0
+
+如果在 gdb 表达式中使用库函数，而该库不是用调试符号编译的（几乎肯定是这个情况），那么唯一能在断点条件中
+使用的返回值类型为 int。换言之,如果没有调试信息，gdb 会假设函数的返回值为 int 类型,当这种假设不正确时，
+函数的方绘制会被曲解。
+
+(gdb) print cos(0.0)
+$1 = 14368
+(gdb) print (double) cos(0.0) // 强转也无济于事
+$2 = 14336
+
+### 使用非 int 返回函数
+
+实际上有一种方式可以在 gdb 表达式中使用不返回 int 的函数，技巧在于应使用指向函数的恰当数据类型
+定义一个便于 gdb 使用的变量
+
+```bash
+(gdb) set $p = (dobule (*) (dobule)) cos
+(gdb) ptype $p
+type = dobule(*)()
+$s = 14368
+(gdb) p $p(3.14159265)
+$4 = -1
+```
+
+将正常断点设置成条件条件断点
+cond 3 i == 3
+删除条件只要输入
+cond 3
+
+### 断点命令列表
+
+commmands _breakpoint-number_
+...
+commands
+...
+end
+
