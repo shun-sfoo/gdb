@@ -174,3 +174,43 @@ end
 3. 任意种类的字符串，数值或者字符常量
 4. 预处理器宏(gcc -g3 编译)
 5. 条件，函数调用，类型强制转换和所用语言定义的运算符(Fortan-77 `.GT.` 表示大于)
+
+## 检查和设置变量
+
+display (disp)
+这个命令要求 gdb 在执行中每次有暂停时就输出指定条目
+call 可以调用其中的函数（比如说打印方法）避免重新编辑源代码
+
+### 检查动态数组
+
+```c
+int *x
+...
+x = (int *) malloc(25*sizeof(int));
+```
+
+```bash
+p x //　打印数组地址
+p *x // 打印第一个元素
+```
+
+一般形式为
+
+`*Point@number_of_elements`
+gdb 还允许适当的时候使用类型强制转换，比如:
+`p (int [25]) *x`
+
+ptype 查看类或者结构的结构
+info locals 命令列出当前栈帧中所有局部变量的值。
+为希望自动输出局部变量的每个断点在 commands 例程中加上 info locals 命令
+
+直接检查内存　 x 命令(examine)主要使用于汇编语言环境
+
+### print display 高级选项
+
+`p/x y`
+十六进制显示变量，其他常用格式为 c 表示字符(character) s 表示字符串(string)，f 表示浮点(floating-point)
+
+`dis disp 1` 临时禁用某个显示项
+`enable disp 1` 重新启用条目
+`undisp 1` 删除显示条目
