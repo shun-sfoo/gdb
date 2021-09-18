@@ -214,3 +214,21 @@ info locals 命令列出当前栈帧中所有局部变量的值。
 `dis disp 1` 临时禁用某个显示项
 `enable disp 1` 重新启用条目
 `undisp 1` 删除显示条目
+
+### 设置变量
+
+set x = 12
+set args 1 52 19 11 与 run xxx 比没有优势
+
+## gdb 自己的变量
+
+### 使用历史值
+
+```bash
+(gdb) p tmp-> left
+$1 = (struct node *) 0x8049a8
+// 发现 tmp->left 非0 打印它的值
+(gdb) p *$1
+// 如果没有进行常规输出，则可以使用特殊的值历史变量 `$`
+(gdb) p *$
+```
